@@ -10,7 +10,7 @@ public class Article {
     public static void main(String[] args) throws IOException {
         try {
             URLConnection connection = connectionToWiki();
-            String jsonOutput = convertJsonToString(connection);
+            String JSONoutput = convertJsonToString(connection);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
