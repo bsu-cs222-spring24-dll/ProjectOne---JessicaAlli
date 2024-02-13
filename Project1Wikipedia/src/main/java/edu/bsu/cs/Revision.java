@@ -18,4 +18,10 @@ public class Revision {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+
+    public int compareTo(Revision other) {
+        // Compare revisions based on their timestamps in descending order
+        return other.timestamp.compareTo(this.timestamp);
+    }
 }
+
