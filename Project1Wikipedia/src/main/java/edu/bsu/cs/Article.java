@@ -1,16 +1,14 @@
 package edu.bsu.cs;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Article {
@@ -27,22 +25,24 @@ public class Article {
             parser.parseTimestamps(jsonData);
             parser.parseRedirects(jsonData);
         } catch (UnknownHostException e) {
-            System.err.println("NO CONNECTION DETECTED");
+            System.err.println("No network connection");
         }
     }
 
+    static ArticleName articleName = new ArticleName();
     public static URLConnection connectToWikipedia(ArticleName input) throws IOException {
-        String searchTerm = input.articleName(new Scanner(System.in));
+        //edited from demo
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(searchTerm, Charset.defaultCharset()) +
+                URLEncoder.encode(articleName.ConfirmName(), Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=14&redirects";
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
-        connection.setRequestProperty("User-Agent", "Project1-Justis-Ethan (justis.guin@bsu.edu)");
+        connection.setRequestProperty("User-Agent",
+                "ProjectOne(Jessica.walter@bsu.edu)");
         connection.connect();
         return connection;
-
     }
+
 
     private static String getJsonData(URLConnection connection) throws IOException {
         InputStream inputStream = connection.getInputStream();

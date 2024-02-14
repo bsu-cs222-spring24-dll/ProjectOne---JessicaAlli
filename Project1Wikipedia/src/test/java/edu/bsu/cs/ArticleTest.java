@@ -24,8 +24,9 @@ class ArticleTest {
     public void testCountRevisionsWithJsonPath() throws IOException {
         String jsonData = readSampleFileAsString();
         JSONArray Revisions = getRevisionsFromJson(jsonData);
-        Assertions.assertEquals(14, Revisions.size());
+        assertEquals(14, Revisions.size());
     }
+
 
     private String readSampleFileAsString() throws NullPointerException, IOException {
         try (InputStream sampleFile = Thread.currentThread().getContextClassLoader()
@@ -37,5 +38,4 @@ class ArticleTest {
     private JSONArray getRevisionsFromJson(String jsonData) {
         return JsonPath.read(jsonData, "$..revisions[*]");
     }
-
 }
