@@ -2,69 +2,60 @@ package edu.bsu.cs;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Article {
-    public static void main(String[] args) {
-        String articleTitle;
-        if (args.length == 0) {
-            System.err.println("Error: Please provide an article title as a command-line argument.");
-            return;
-        } else {
-            articleTitle = args[0];
-        }
-
+    public static void main(String[] args) throws IOException {
         try {
-            URLConnection connection = connectionToWiki(articleTitle);
-            String jsonResponse = convertJsonToString(connection);
-            List<Revision> revisions = parseJsonResponse(jsonResponse);
-            if (revisions.isEmpty()) {
-                System.err.println("Error: There is no Wikipedia page for the article name provided.");
-            } else {
-                printRevisions(revisions);
-            }
-        } catch (IOException e) {
-            System.err.println("Error: Network error occurred. " + e.getMessage());
+            ArticleName input = new ArticleName();
+            ErrorClass error = new ErrorClass();
+            URLConnection connection = connectToWikipedia(input);
+            String jsonData = getJsonData(connection);
+            error.noWikiArticlePage(jsonData);
+            printRawJson(jsonData);
+            Revision parser = new Revision();
+            parser.parse(jsonData);
+            parser.parseTimestamps(jsonData);
+            parser.parseRedirects(jsonData);
+        } catch (UnknownHostException e) {
+            System.err.println("NO CONNECTION DETECTED");
         }
     }
 
-    private static URLConnection connectionToWiki(String articleTitle) throws IOException {
-        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
-                + URLEncoder.encode(articleTitle, Charset.defaultCharset()) +
+    public static URLConnection connectToWikipedia(ArticleName input) throws IOException {
+        String searchTerm = input.articleName(new Scanner(System.in));
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(searchTerm, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=14&redirects";
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
-        connection.setRequestProperty("User-Agent", "ProjectOne (allison.carr@bsu.edu)");
+        connection.setRequestProperty("User-Agent", "Project1-Justis-Ethan (justis.guin@bsu.edu)");
         connection.connect();
         return connection;
+
     }
 
-    private static String convertJsonToString(URLConnection connection) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+    private static String getJsonData(URLConnection connection) throws IOException {
+        InputStream inputStream = connection.getInputStream();
+        StringBuilder jsonData = new StringBuilder();
+        Scanner scanner = new Scanner(inputStream, "UTF-8");
+        while (scanner.hasNext()) {
+            jsonData.append(scanner.nextLine());
         }
-        reader.close();
-        return response.toString();
+        scanner.close();
+        return jsonData.toString();
     }
 
-    private static List<Revision> parseJsonResponse(String jsonResponse) {
-        List<Revision> revisions = new ArrayList<>();
-        // Your JSON parsing logic here
-        return revisions;
-    }
-
-    private static void printRevisions(List<Revision> revisions) {
-        for (Revision revision : revisions) {
-            System.out.println(revision);
-        }
+    private static void printRawJson(String jsonData) {
+        System.out.println(jsonData);
     }
 }

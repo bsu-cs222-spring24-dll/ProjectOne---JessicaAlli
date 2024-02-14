@@ -1,6 +1,7 @@
 package edu.bsu.cs;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -11,23 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArticleNameTest {
 
-    @BeforeEach
-    public void setUp() {
-        // No setup required in this case
-    }
-
     @Test
-    public void testGetArticleTitle() {
-        String input = "Test Article";
-        InputStream originalIn = System.in; // Store original input stream
-        InputStream in = new ByteArrayInputStream(input.getBytes());
+    public void testArticleNameInput() {
+        String testInput = "Ocean";
+        InputStream in = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(in);
-
-        String result = ArticleName.getArticleTitle(new Scanner(System.in));
-
-        assertEquals("Test Article", result);
-
-        // Reset the original input stream after the test
-        System.setIn(originalIn);
+        ArticleName input = new ArticleName();
+        String result = input.articleName(new Scanner(System.in));
+        Assertions.assertEquals(testInput, result);
     }
 }

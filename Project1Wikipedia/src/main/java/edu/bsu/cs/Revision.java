@@ -1,27 +1,44 @@
 package edu.bsu.cs;
 
-import java.time.LocalDateTime;
+import com.jayway.jsonpath.JsonPath;
+import org.json.JSONArray;
+
+import java.io.IOException;
+
 
 public class Revision {
-    private String username;
-    private LocalDateTime timestamp;
 
-    public Revision(String username, LocalDateTime timestamp) {
-        this.username = username;
-        this.timestamp = timestamp;
+
+    public String parse(String jsonData) throws IOException {
+        JSONArray names = (JSONArray) JsonPath.read(jsonData, "$..revisions..user");
+        System.out.println("14 Most Recent Revisions:");
+        for (int i = 0; i < 14; i++) {
+            System.out.println((i + 1) + ". " + names.get(i).toString());
+        }
+        return jsonData;
     }
 
-    public String getUsername() {
-        return username;
+    public String parseTimestamps(String jsonData) throws IOException {
+        JSONArray timestamps = (JSONArray) JsonPath.read(jsonData, "$..revisions..timestamp");
+        System.out.println("Time: ");
+        for (int i = 0; i < 14; i++) {
+            System.out.println((i + 1) + ". " + timestamps.get(i).toString());
+        }
+        return jsonData;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int compareTo(Revision other) {
-        // Compare revisions based on their timestamps in descending order
-        return other.timestamp.compareTo(this.timestamp);
-    }
+    public String parseRedirects(String jsonData) throws IOException {
+        JSONArray redirects = (JSONArray) JsonPath.read(jsonData, "$..redirects");
+        if (!redirects.isEmpty()) {
+            JSONArray toArray = (JSONArray) JsonPath.read(jsonData, "$..redirects[0].to");
+            String redirectTo = "";
+            if (!toArray.isEmpty()) {
+                redirectTo = (String) toArray.get(0);
+            }
+            System.out.println("Redirected to: " + redirectTo);
+        } else {
+            System.out.println("No redirects.");
+        }
+        return jsonData;
+        }
 }
-

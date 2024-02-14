@@ -1,36 +1,37 @@
 package edu.bsu.cs;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RevisionTest {
 
     @Test
-    void testGetUsername() {
-        // Arrange
-        String username = "testUser";
-        LocalDateTime timestamp = LocalDateTime.now();
-        Revision revision = new Revision(username, timestamp);
+    public void testNameParse() throws IOException {
+        Revision parser = new Revision();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        String user = parser.parse(String.valueOf(testDataStream));
+        Assertions.assertEquals("24.143.118.36", user);
 
-        // Act
-        String actualUsername = revision.getUsername();
 
-        // Assert
-        assertEquals(username, actualUsername);
     }
-
     @Test
-    void testGetTimestamp() {
-        // Arrange
-        String username = "testUser";
-        LocalDateTime timestamp = LocalDateTime.now();
-        Revision revision = new Revision(username, timestamp);
-
-        // Act
-        LocalDateTime actualTimestamp = revision.getTimestamp();
-
-        // Assert
-        assertEquals(timestamp, actualTimestamp);
+    public void testTimestamps() throws IOException{
+        Revision parser = new Revision();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        String timestamps = parser.parseTimestamps(String.valueOf(testDataStream));
+        Assertions.assertEquals("2024-02-04T18:19:33Z", timestamps);
     }
+    @Test
+    public void testRedirects()throws IOException{
+        Revision parser = new Revision();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        String redirects = parser.parseRedirects(testDataStream.toString());
+        Assertions.assertEquals("Frank Zappa", redirects);
+    }
+
 }
