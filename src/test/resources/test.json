@@ -1,39 +1,35 @@
 {
-"continue": {
-"rvcontinue": "20231215235554|1190104709",
-"continue": "||"
-},
-"query": {
-"redirects": [
-{
-"from": "Zappa",
-"to": "Frank Zappa"
-}
-],
-"pages": {
-"10672": {
-"pageid": 10672,
-"ns": 0,
-"title": "Frank Zappa",
-"revisions": [
-{
-"user": "GünniX",
-"timestamp": "2023-12-24T00:36:59Z"
-},
-{
-"user": "John Broughton",
-"timestamp": "2023-12-22T15:56:46Z"
-},
-{
-"user": "RobertG",
-"timestamp": "2023-12-21T14:19:40Z"
-},
-{
-"user": "Besserwissern",
-"timestamp": "2023-12-21T12:14:46Z"
-}
-]
-}
-}
-}
+  "query": {
+    "redirects": [
+      {
+        "from": "Zappa",
+        "to": "Frank Zappa"
+      }
+    ],
+    "pages": {
+      "10672": {
+        "pageid": 10672,
+        "ns": 0,
+        "title": "Frank Zappa",
+        "revisions": [
+          {
+            "user": "GünniX",
+            "timestamp": "2023-12-24T00:36:59Z"
+          },
+          {
+            "user": "John Broughton",
+            "timestamp": "2023-12-22T15:56:46Z"
+          },
+          {
+            "user": "RobertG",
+            "timestamp": "2023-12-21T14:19:40Z"
+          },
+          {
+            "user": "Besserwissern",
+            "timestamp": "2023-12-21T12:14:46Z"
+          }
+        ]
+      }
+    }
+  }
 }
