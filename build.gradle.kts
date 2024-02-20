@@ -17,6 +17,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.36")
     implementation("org.json:json:20210307")
     implementation("net.minidev:json-smart:2.5.0")
+    implementation("org.slf4j:slf4j-simple:2.0.12")
 
 }
 
