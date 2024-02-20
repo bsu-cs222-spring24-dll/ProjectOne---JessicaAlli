@@ -25,6 +25,7 @@ public class Article {
             parser.parse(jsonData);
             parser.parseTimestamps(jsonData);
             parser.parseRedirects(jsonData);
+            //Error handling for the case of poor network connection
         } catch (UnknownHostException e) {
             System.err.println("No network connection");
         }

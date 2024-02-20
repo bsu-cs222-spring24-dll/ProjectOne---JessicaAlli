@@ -24,7 +24,7 @@ class ArticleTest {
     public void testCountRevisionsWithJsonPath() throws IOException {
         String jsonData = readSampleFileAsString();
         JSONArray Revisions = getRevisionsFromJson(jsonData);
-        assertEquals(14, Revisions.size());
+        assertEquals(14, Revisions.length());
     }
 
 
