@@ -2,6 +2,7 @@ package edu.bsu.cs;
 
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -26,14 +27,17 @@ public class Revision {
     }
 
     public String parseRedirects(String jsonData) throws IOException {
-        JSONArray redirects = JsonPath.read(jsonData, "$..redirects");
-        if (!redirects.isEmpty()) {
-            JSONArray toArray = JsonPath.read(jsonData, "$..redirects[0].to");
-            String redirectTo = toArray.isEmpty() ? "" : toArray.get(0).toString();
+        JSONObject jsonObject = new JSONObject(jsonData);
+        org.json.JSONArray redirects = jsonObject.optJSONArray("redirects");
+        if (redirects != null && redirects.length() > 0) {
+            JSONObject redirectObject = redirects.getJSONObject(0);
+            String redirectTo = redirectObject.optString("to", "");
             System.out.println("Redirected to: " + redirectTo);
+            return redirectTo;
         } else {
             System.out.println("No redirects.");
+            return "";
         }
-        return jsonData;
     }
 }
+
