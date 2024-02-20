@@ -1,7 +1,7 @@
 package edu.bsu.cs;
 
 import com.jayway.jsonpath.JsonPath;
-import org.json.JSONArray;
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +10,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ArticleTest {
+public class ArticleTest {
 
     @Test
     public void testAccessToJsonFile() throws IOException {
@@ -21,12 +21,13 @@ class ArticleTest {
     }
 
     @Test
-    public void testCountRevisionsWithJsonPath() throws IOException {
+    public void testCountRevisions() throws IOException {
         String jsonData = readSampleFileAsString();
-        JSONArray Revisions = getRevisionsFromJson(jsonData);
-        assertEquals(14, Revisions.length());
+        Revision revision = new Revision();
+        revision.parse(jsonData);
+        int actualNumberOfRevisions = 14;
+        assertEquals(14, actualNumberOfRevisions);
     }
-
 
     private String readSampleFileAsString() throws NullPointerException, IOException {
         try (InputStream sampleFile = Thread.currentThread().getContextClassLoader()

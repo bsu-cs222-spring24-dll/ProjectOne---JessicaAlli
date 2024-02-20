@@ -1,60 +1,60 @@
 package edu.bsu.cs;
 
-
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Article {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
-            ArticleName input = new ArticleName();
-            ErrorClass error = new ErrorClass();
-            URLConnection connection = connectToWikipedia(input);
-            String jsonData = getJsonData(connection);
-            error.noWikiArticlePage(jsonData);
-            printRawJson(jsonData);
-            Revision parser = new Revision();
-            parser.parse(jsonData);
-            parser.parseTimestamps(jsonData);
-            parser.parseRedirects(jsonData);
-            //Error handling for the case of poor network connection
+            // Get the article name from the user
+            String articleName = ArticleName.getArticleNameFromUser();
+
+            // Connect to Wikipedia API and fetch JSON data
+            String jsonData = fetchArticleJsonData(articleName);
+
+            if (jsonData != null && !jsonData.isEmpty()) {
+                // Print raw JSON data
+                printRawJson(jsonData);
+
+                // Parse JSON data
+                Revision parser = new Revision();
+                parser.parse(jsonData);
+                parser.parseTimestamps(jsonData);
+                parser.parseRedirects(jsonData);
+            } else {
+                System.out.println("No data received from Wikipedia API.");
+            }
         } catch (UnknownHostException e) {
             System.err.println("No network connection");
+        } catch (IOException e) {
+            System.err.println("Error occurred: " + e.getMessage());
         }
     }
 
-    static ArticleName articleName = new ArticleName();
-    public static URLConnection connectToWikipedia(ArticleName input) throws IOException {
-        //edited from demo
-        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(articleName.ConfirmName(), Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=14&redirects";
-        URL url = new URL(encodedUrlString);
+    public static String fetchArticleJsonData(String articleName) throws IOException {
+        String encodedArticleName = URLEncoder.encode(articleName, StandardCharsets.UTF_8);
+        String apiUrl = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
+                + encodedArticleName + "&rvprop=timestamp|user&rvlimit=14&redirects";
+
+        URL url = new URL(apiUrl);
         URLConnection connection = url.openConnection();
-        connection.setRequestProperty("User-Agent",
-                "ProjectOne(Jessica.walter@bsu.edu)");
+        connection.setRequestProperty("User-Agent", "Project1Wikipedia(allison.carr@bsu.edu)");
         connection.connect();
-        return connection;
-    }
 
-
-    private static String getJsonData(URLConnection connection) throws IOException {
-        InputStream inputStream = connection.getInputStream();
-        StringBuilder jsonData = new StringBuilder();
-        Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
-        while (scanner.hasNext()) {
-            jsonData.append(scanner.nextLine());
+        try (InputStream inputStream = connection.getInputStream();
+             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
+            StringBuilder jsonData = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                jsonData.append(scanner.nextLine());
+            }
+            return jsonData.toString();
         }
-        scanner.close();
-        return jsonData.toString();
     }
 
     private static void printRawJson(String jsonData) {
