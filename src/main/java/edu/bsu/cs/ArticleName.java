@@ -6,7 +6,7 @@ public class ArticleName {
     //Creates an instance of the Scanner class
     public static Scanner console = new Scanner(System.in);
 
-    public String ConfirmName() {
+    public static String getArticleNameFromUser() {
         //Allows the user to input an article title
         System.out.println("Enter article name: ");
         String input = console.nextLine();
