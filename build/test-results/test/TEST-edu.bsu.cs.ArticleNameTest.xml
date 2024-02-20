@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.bsu.cs.ArticleNameTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-20T18:05:41" hostname="DESKTOP-QJH6DSA" time="0.021">
+  <properties/>
+  <testcase name="ArticleNameInputTest()" classname="edu.bsu.cs.ArticleNameTest" time="0.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

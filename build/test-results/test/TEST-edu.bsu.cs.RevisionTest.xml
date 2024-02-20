@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.bsu.cs.RevisionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-02-20T18:05:41" hostname="DESKTOP-QJH6DSA" time="0.017">
+  <properties/>
+  <testcase name="testParse()" classname="edu.bsu.cs.RevisionTest" time="0.002"/>
+  <testcase name="testParseRedirects_WithRedirects()" classname="edu.bsu.cs.RevisionTest" time="0.008"/>
+  <testcase name="testParseTimestamps()" classname="edu.bsu.cs.RevisionTest" time="0.002"/>
+  <testcase name="testParseRedirects_WithoutRedirects()" classname="edu.bsu.cs.RevisionTest" time="0.001"/>
+  <system-out><![CDATA[14 Most Recent Revisions:
+1. ["User1","User2"]
+Redirected to: Page1
+Time: 
+1. ["Timestamp1","Timestamp2"]
+No redirects.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
