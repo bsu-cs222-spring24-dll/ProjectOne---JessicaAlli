@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
-
 public class GUI extends Application{
 
     public static void main(String[] args) {
